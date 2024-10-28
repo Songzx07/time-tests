@@ -17,10 +17,10 @@ def compute_overlap_time(range1, range2):
     overlap_time = []
     
     if range1[-1][1] == range2[0][0]:
-        overlap_time.append(range1[-1][1])
+        overlap_time.append(tuple([range1[-1][1]]))
         return overlap_time
     if range2[-1][1] == range1[0][0]:
-        overlap_time.append(range2[-1][1])
+        overlap_time.append(tuple([range2[-1][1]]))
         return overlap_time
 
     for start1, end1 in range1:
