@@ -1,43 +1,18 @@
 from times import compute_overlap_time, time_range
 import pytest
+import yaml
 
-# def test_given_input():
-#     large = time_range("2010-01-12 10:00:00", "2010-01-12 12:00:00")
-#     short = time_range("2010-01-12 10:30:00", "2010-01-12 10:45:00", 2, 60)
-    
-#     result = compute_overlap_time(large,short) 
-#     expected = [('2010-01-12 10:30:00', '2010-01-12 10:37:00'), ('2010-01-12 10:38:00', '2010-01-12 10:45:00')]
-#     assert result == expected
+with open('fixture.yaml','r') as f:
+    data = yaml.safe_load(f)
 
-# def test_non_overlap():
-#     large = time_range("2010-01-13 05:00:00", "2010-01-13 10:00:00")
-#     short = time_range("2010-01-12 10:30:00", "2010-01-12 10:45:00", 2, 60)
-    
-#     result = compute_overlap_time(large,short) 
-#     expected = []
-#     assert result == expected
+test_data=[]
+for case in data.values():
+    element = (time_range(case['time_range_1']['start'], case['time_range_1']['end'],int(case['time_range_1']['range_num']),int(case['time_range_1']['range_gap'])),
+               time_range(case['time_range_2']['start'], case['time_range_2']['end'],int(case['time_range_2']['range_num']),int(case['time_range_2']['range_gap'])),
+               [tuple(expected) for expected in case['expected']])
+    test_data.append(element)
 
-# def test_just_touching():
-#     large = time_range("2010-01-12 10:00:00", "2010-01-12 12:00:00")
-#     short = time_range("2010-01-12 12:00:00", "2010-01-12 13:45:00", 2, 60)
-    
-#     result = compute_overlap_time(large,short) 
-#     expected = ['2010-01-12 12:00:00']
-#     assert result == expected
-
-# def test_multintervals_each():
-#     large = time_range("2010-01-12 10:30:00", "2010-01-12 10:40:00",5, 25)
-#     short = time_range("2010-01-12 10:30:00", "2010-01-12 10:45:00", 2, 60)
-
-#     result = compute_overlap_time(large,short) 
-#     expected = [('2010-01-12 10:30:00', '2010-01-12 10:31:40'), ('2010-01-12 10:32:05', '2010-01-12 10:33:45'), ('2010-01-12 10:34:10', '2010-01-12 10:35:50'), ('2010-01-12 10:36:15', '2010-01-12 10:37:00'), ('2010-01-12 10:38:20', '2010-01-12 10:40:00')]
-#     assert result == expected
-
-@pytest.mark.parametrize("first_range,,second_range,expected", 
-                        [(time_range("2010-01-12 10:00:00", "2010-01-12 12:00:00"),time_range("2010-01-12 10:30:00", "2010-01-12 10:45:00", 2, 60),[('2010-01-12 10:30:00', '2010-01-12 10:37:00'), ('2010-01-12 10:38:00', '2010-01-12 10:45:00')]),
-                        (time_range("2010-01-13 05:00:00", "2010-01-13 10:00:00"),time_range("2010-01-12 10:30:00", "2010-01-12 10:45:00", 2, 60),[]),
-                        (time_range("2010-01-12 10:00:00", "2010-01-12 12:00:00"),time_range("2010-01-12 12:00:00", "2010-01-12 13:45:00", 2, 60),[('2010-01-12 12:00:00')]),
-                        (time_range("2010-01-12 10:30:00", "2010-01-12 10:40:00",5, 25),time_range("2010-01-12 10:30:00", "2010-01-12 10:45:00", 2, 60),[('2010-01-12 10:30:00', '2010-01-12 10:31:40'), ('2010-01-12 10:32:05', '2010-01-12 10:33:45'), ('2010-01-12 10:34:10', '2010-01-12 10:35:50'), ('2010-01-12 10:36:15', '2010-01-12 10:37:00'), ('2010-01-12 10:38:20', '2010-01-12 10:40:00')])])
+@pytest.mark.parametrize('first_range,second_range,expected',test_data)
 def test_overlap_cases(first_range,second_range,expected):
     assert compute_overlap_time(first_range,second_range)==expected
 
