@@ -46,8 +46,3 @@ def iss_passes(data):
         time_range.append((start,end))
 
     return time_range
-
-data=get_data(25544,41.702,-76.014,0,2,300).text
-data = json.loads(data)
-
-print(data)

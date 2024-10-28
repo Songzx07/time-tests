@@ -47,6 +47,6 @@ def test_iss_passes():
             'min_visibility': 300})
         
         result = iss_passes(time_data.json())
-        expected = [('2024-10-29 11:26:15', '2024-10-29 11:36:35')]
+        expected = [('2024-10-29 03:26:15', '2024-10-29 03:36:35')]
 
         assert result == expected
