@@ -16,9 +16,6 @@ def time_range(start_time, end_time, number_of_intervals=1, gap_between_interval
 def compute_overlap_time(range1, range2):
     overlap_time = []
     
-    if range1[-1][1] < range2[0][0] or range2[-1][1] < range1[0][0]:
-        return overlap_time
-    
     if range1[-1][1] == range2[0][0]:
         overlap_time.append(range1[-1][1])
         return overlap_time
